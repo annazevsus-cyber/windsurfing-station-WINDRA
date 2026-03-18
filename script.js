@@ -415,19 +415,19 @@ window.addEventListener('DOMContentLoaded', () => {
     document.addEventListener(eventName, tryStartIntroMusic, { once: true });
 });
 
-document.querySelectorAll('.about-card').forEach(card => {
-    card.style.cursor = 'pointer';
-});
-
-// Sound only for about cards as requested.
-document.querySelectorAll('.about-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
+// Sound only for interactive buttons/links.
+document.querySelectorAll('.cta-button, .submit-btn, .social-btn').forEach(button => {
+    button.addEventListener('mouseenter', () => {
         const now = Date.now();
         if (now - lastHoverSoundAt < 180) {
             return;
         }
 
         lastHoverSoundAt = now;
+        playCardSound();
+    });
+
+    button.addEventListener('click', () => {
         playCardSound();
     });
 });
@@ -474,85 +474,6 @@ if (soundtrackButton) {
         soundtrackButton.disabled = false;
     });
 }
-
-function createTemporaryAudioTestPanel() {
-    const panel = document.createElement('div');
-    panel.style.cssText = `
-        position: fixed;
-        left: 16px;
-        bottom: 16px;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        background: rgba(5, 10, 18, 0.9);
-        border: 1px solid rgba(156, 214, 255, 0.5);
-        border-radius: 12px;
-        padding: 10px;
-        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
-    `;
-
-    const status = document.createElement('div');
-    status.textContent = 'Тест-панель звука (временная)';
-    status.style.cssText = 'color:#d9ecff;font-size:12px;font-weight:700;';
-
-    const btnHover = document.createElement('button');
-    btnHover.type = 'button';
-    btnHover.textContent = 'Тест hover-звука';
-
-    const btnStart = document.createElement('button');
-    btnStart.type = 'button';
-    btnStart.textContent = 'Старт музыки 30с';
-
-    const btnStop = document.createElement('button');
-    btnStop.type = 'button';
-    btnStop.textContent = 'Стоп музыки';
-
-    [btnHover, btnStart, btnStop].forEach(btn => {
-        btn.style.cssText = `
-            border: 1px solid rgba(170, 222, 255, 0.55);
-            background: rgba(11, 28, 44, 0.9);
-            color: #e8f7ff;
-            font-size: 12px;
-            border-radius: 8px;
-            padding: 7px 9px;
-            cursor: pointer;
-            font-weight: 600;
-        `;
-    });
-
-    btnHover.addEventListener('click', () => {
-        unlockAudioContext();
-        playCardSound();
-        status.textContent = 'Тест-панель: hover-звук отправлен';
-    });
-
-    btnStart.addEventListener('click', async () => {
-        const started = await forceStartIntroMusic();
-        if (started) {
-            setSoundtrackButtonPlayingState(true);
-            status.textContent = 'Тест-панель: музыка 30с запущена';
-            return;
-        }
-
-        setSoundtrackButtonPlayingState(false);
-        status.textContent = 'Тест-панель: запуск заблокирован браузером';
-    });
-
-    btnStop.addEventListener('click', () => {
-        stopIntroMusic(0.35);
-        setSoundtrackButtonPlayingState(false);
-        status.textContent = 'Тест-панель: музыка остановлена';
-    });
-
-    panel.appendChild(status);
-    panel.appendChild(btnHover);
-    panel.appendChild(btnStart);
-    panel.appendChild(btnStop);
-    document.body.appendChild(panel);
-}
-
-createTemporaryAudioTestPanel();
 
 // Navbar scroll effect
 window.addEventListener('scroll', function() {
