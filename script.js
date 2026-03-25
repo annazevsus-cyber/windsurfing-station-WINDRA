@@ -129,6 +129,34 @@ if (roseCardVideo) {
     }
 }
 
+// Mobile burger menu
+const burger = document.querySelector('.burger');
+const navMenu = document.querySelector('.nav-menu');
+
+if (burger && navMenu) {
+    burger.addEventListener('click', () => {
+        const isOpen = navMenu.classList.toggle('open');
+        burger.classList.toggle('open', isOpen);
+        burger.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('open');
+            burger.classList.remove('open');
+            burger.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!navMenu.contains(e.target) && !burger.contains(e.target)) {
+            navMenu.classList.remove('open');
+            burger.classList.remove('open');
+            burger.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
 // Card click sound (generated in browser, no external audio file needed)
 let audioContext;
 let lastHoverSoundAt = 0;

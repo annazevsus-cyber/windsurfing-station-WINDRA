@@ -212,6 +212,40 @@ body {
     width: 100%;
 }
 
+/* Burger button (hidden on desktop) */
+.burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.burger span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background: #f4f8ff;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.burger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.burger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 /* ========================================
    HERO SECTION
    ======================================== */
@@ -1139,8 +1173,39 @@ body {
    ======================================== */
 
 @media (max-width: 768px) {
+    .burger {
+        display: flex;
+    }
+
     .nav-menu {
-        gap: 15px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: rgba(5, 12, 20, 0.97);
+        backdrop-filter: blur(10px);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
+
+    .nav-menu.open {
+        max-height: 320px;
+    }
+
+    .nav-menu li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .nav-menu a {
+        display: block;
+        padding: 14px 20px;
+    }
+
+    .nav-menu a::after {
+        display: none;
     }
 
     .hero-title {
@@ -1201,11 +1266,6 @@ body {
 @media (max-width: 480px) {
     .logo-text {
         font-size: 18px;
-    }
-
-    .nav-menu {
-        gap: 10px;
-        font-size: 13px;
     }
 
     .hero-title {
