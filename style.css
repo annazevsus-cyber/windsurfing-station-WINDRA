@@ -865,12 +865,20 @@ body {
     transform: rotate(-90deg);
 }
 
+.gallery-image-rotate-cw {
+    transform: rotate(90deg);
+}
+
 .gallery-item:hover .gallery-image {
     transform: scale(1.05);
 }
 
 .gallery-item:hover .gallery-image-rotate-ccw {
     transform: rotate(-90deg) scale(1.05);
+}
+
+.gallery-item:hover .gallery-image-rotate-cw {
+    transform: rotate(90deg) scale(1.05);
 }
 
 .gallery-placeholder {
