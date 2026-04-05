@@ -125,7 +125,16 @@ if (roseCardVideo) {
             playCurrentRoseVideo();
         });
 
-        playCurrentRoseVideo();
+        // Lazy-load: start fetching video only when card scrolls into view
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    playCurrentRoseVideo();
+                    videoObserver.disconnect();
+                }
+            });
+        }, { rootMargin: '200px' });
+        videoObserver.observe(roseCardVideo);
     }
 }
 
