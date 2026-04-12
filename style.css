@@ -112,9 +112,8 @@ body {
 }
 
 .navbar {
-    background: rgba(5, 7, 11, 0.82);
+    background: #000;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(8px);
     position: fixed;
     top: 0;
     left: 0;
@@ -152,7 +151,8 @@ body {
     display: block;          /* remove inline whitespace below image */
     height: 78px;            /* match text size */
     width: auto;
-    background: transparent; /* ensure no background shows through */
+    background: transparent;
+    mix-blend-mode: screen;  /* black bg becomes invisible, logo blends with navbar */
 }
 
 .logo-text {
@@ -183,6 +183,9 @@ body {
     display: flex;
     list-style: none;
     gap: 30px;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
 }
 
 .nav-menu a {
@@ -469,20 +472,19 @@ body {
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: clamp(16px, 2.2vw, 24px);
-    padding-bottom: 10px;
+    padding-bottom: 4px;
+    /* скрыть бегунок во всех браузерах */
+    scrollbar-width: none;       /* Firefox */
+    -ms-overflow-style: none;    /* IE/Edge */
 }
 
 .about-grid::-webkit-scrollbar {
-    height: 8px;
-}
-
-.about-grid::-webkit-scrollbar-thumb {
-    background: rgba(0, 102, 204, 0.35);
-    border-radius: 8px;
+    display: none;               /* Chrome/Safari */
 }
 
 .about-card {
     flex: 0 0 min(260px, 74vw);
+    min-height: 380px;
     scroll-snap-align: start;
     padding: 26px 20px;
     background: rgba(9, 20, 34, 0.86);
@@ -631,7 +633,7 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('images/mountain.JPG');
+    background-image: url('images/mountain foto.JPG');
     background-size: cover;
     background-position: center top;
     transform: rotate(0deg) scale(1.05);
@@ -691,15 +693,13 @@ body {
     padding: 0;
 }
 
-.card-video {
+.about-card-rose::before {
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 180%;
-    height: 180%;
-    object-fit: cover;
-    transform: translate(-50%, -50%) rotate(-90deg);
-    transform-origin: center;
+    inset: 0;
+    background-image: url('images/IMG_4371.JPG');
+    background-size: cover;
+    background-position: center;
     z-index: 0;
 }
 
@@ -711,7 +711,7 @@ body {
     z-index: 1;
 }
 
-.about-card-rose > *:not(.card-video) {
+.about-card-rose > * {
     position: relative;
     z-index: 2;
 }
@@ -757,10 +757,40 @@ body {
 
 .spots-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: 2fr 1fr;
     gap: 24px;
-    max-width: 860px;
-    margin: 0 auto;
+    max-width: 1100px;
+    margin: 0;
+    align-items: start;
+}
+
+.spots-side-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.spots-side-cards .spot-card {
+    padding: 24px 22px;
+}
+
+.spots-side-cards .spot-card .card-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.spots-side-cards .spot-card h3 {
+    font-size: 18px;
+    padding: 0 0 8px;
+    margin-bottom: 8px;
+}
+
+.spots-side-cards .spot-card p {
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.65;
+    margin-bottom: 0;
 }
 
 .spot-card {
@@ -1193,7 +1223,8 @@ body {
         right: 0;
         flex-direction: column;
         gap: 0;
-        background: rgba(5, 12, 20, 0.97);
+        background: #000;
+        border-radius: 0;
         backdrop-filter: blur(10px);
         max-height: 0;
         overflow: hidden;
@@ -1247,6 +1278,16 @@ body {
     .spots-grid {
         grid-template-columns: 1fr;
         gap: 20px;
+    }
+
+    .spots-side-cards {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .spots-side-cards .spot-card {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 200px;
     }
 
     .gallery-grid {

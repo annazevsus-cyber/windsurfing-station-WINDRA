@@ -90,54 +90,6 @@ document.querySelectorAll('.cta-button, .submit-btn').forEach(button => {
     });
 });
 
-// Slightly slow the rose-card video to make camera shake feel less aggressive.
-const roseCardVideo = document.querySelector('.about-card-rose .card-video');
-if (roseCardVideo) {
-    const playlist = (roseCardVideo.dataset.playlist || '')
-        .split('|')
-        .map(item => item.trim())
-        .filter(Boolean);
-    let currentVideoIndex = 0;
-
-    const playCurrentRoseVideo = () => {
-        if (!playlist.length) {
-            roseCardVideo.defaultPlaybackRate = 0.78;
-            roseCardVideo.playbackRate = 0.78;
-            return;
-        }
-
-        roseCardVideo.src = playlist[currentVideoIndex];
-        roseCardVideo.load();
-        const playPromise = roseCardVideo.play();
-        if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {
-                // Ignore autoplay blocking; browser will allow play after a user gesture.
-            });
-        }
-    };
-
-    roseCardVideo.defaultPlaybackRate = 0.78;
-    roseCardVideo.playbackRate = 0.78;
-
-    if (playlist.length) {
-        roseCardVideo.addEventListener('ended', () => {
-            currentVideoIndex = (currentVideoIndex + 1) % playlist.length;
-            playCurrentRoseVideo();
-        });
-
-        // Lazy-load: start fetching video only when card scrolls into view
-        const videoObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    playCurrentRoseVideo();
-                    videoObserver.disconnect();
-                }
-            });
-        }, { rootMargin: '200px' });
-        videoObserver.observe(roseCardVideo);
-    }
-}
-
 // Mobile burger menu
 const burger = document.querySelector('.burger');
 const navMenu = document.querySelector('.nav-menu');
